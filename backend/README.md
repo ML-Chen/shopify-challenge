@@ -4,7 +4,7 @@ Backend server. This uses:
 
 - TypeScript
 - Auth0 for authentication
-- 
+- Azure Blob Storage for storing images
 - and it is deployed in Heroku
 
 Setup:
@@ -15,11 +15,46 @@ npm install
 
 Put necessary environment variables in the `.env` file. See the `.env.example` file for reference.
 
+As a best security practice, the passwords should be salted and hashed, but for simplicity, I did not.
+
+Then run,
+
+```
+npm run dev
+```
+
+to run in development mode, or …
+
+## Code overview
+
+API
+
+- POST /images
+  - multipart/form-data
+  - user id and password
+  - public or private
+- DELETE /images
+  - array of image names to be deleted
+  - user id and password
+- DELETE /images/all
+  - user id and password
+
+Models
+
+- Image
+  - username: string
+  - password (hashed): string
+  - public: boolean
+
 ## Development
+
+### MongoDB Atlas
+
+We're using a MongoDB Atlas database. See https://studio3t.com/knowledge-base/articles/connect-to-mongodb-atlas/ for instructions on how to obtain the connection string.
 
 ### Heroku
 
-Heroku is set to auto-deploy the `dev` branch of this repo to [URL pending]. Here's how to set Heroku to deploy from a subfolder: https://stackoverflow.com/questions/39197334/automated-heroku-deploy-from-subfolder
+Heroku is set to auto-deploy the `develop` branch of this repo to [URL pending]. Here's how to set Heroku to deploy from a subfolder: https://stackoverflow.com/questions/39197334/automated-heroku-deploy-from-subfolder
 
 If you wanted to create another deployment to Heroku for some reason, here's how you would do it:
 

@@ -1,5 +1,4 @@
 import { UploadedFile } from 'express-fileupload';
-import { Response, Request, NextFunction } from 'express';
 import storage from 'azure-storage';
 import { uid } from 'uid';
 

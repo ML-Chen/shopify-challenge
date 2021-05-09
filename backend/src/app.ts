@@ -7,18 +7,14 @@ import path from 'path';
 import mongoose from 'mongoose';
 import bluebird from 'bluebird';
 import cors from 'cors';
-import jwt_decode, { JwtPayload } from 'jwt-decode';
 import { MongoMemoryServer } from 'mongodb-memory-server';
 import { MONGODB_URI, SESSION_SECRET } from './util/secrets';
-import { sendBatchNotification } from './util/notifications';
-import { checkAdmin, checkJwt, userJwt } from './util/auth';
 
 // Controllers (route handlers)
-import * as imageController from './controllers/imageUpload';
+import * as imageController from './controllers/imageController';
 
-// Sub Routers
-import donorRouter from './routes/donors';
-import userRouter from './routes/users';
+// Routers
+import imageRouter from './routes/images';
 
 const MongoStore = mongo(session);
 
@@ -76,32 +72,6 @@ const fileupload = require('express-fileupload');
 app.use(fileupload());
 
 // Routes
-app.post('/upload', imageController.postImage);
-app.post('/testpush', (req, res) => {
-    res.send('testing push notification');
-    // Add your ExponentPushToken[xxxxxxxxxxxxxxxxxxxxxx] to the array below to test sending push notifications to yourself. See the frontend console for a line like Expo Push Token : ExponentPushToken[sfdjiodojifsdojisdfjio]
-    sendBatchNotification('Umi Feeds (title)', 'this is a test (body)', ['']);
-});
-app.use('/api', donorRouter);
-app.use('/api', userRouter);
-
-/**
- * To make a request to this, go to https://manage.auth0.com/dashboard/us/bog-dev/apis/602861e9ea4b12003f71d5d8/test
- * and log in with the credentials in the Product Bitwarden. (Or, go to the Auth0 Dashboard > APIs > Umi-Feeds Test API
- * > Test tab.) Scroll down to the section "Sending the token to the API". Make a GET request to /test-auth0-security with the authorization header there; the value of the authorization header would be something like Bearer jifdojioijoggiojreioioviofiojblahblah
- * Note that this authorization token won't work forever; it expires after a couple hours.
- * The test page also provides information about how to get an authorization token programmatically instead of copying
- * it from that Auth0 dashboard page.
- */
-app.get('/test-auth0-security', checkJwt, (req, res) => {
-    // console.log(req);
-    res.send('Secured');
-});
-
-app.get('/test-admin-access', userJwt, checkAdmin, (req, res) => {
-    res.send('Secured');
-});
-
-app.post('/upload', imageController.postImage);
+app.use('', imageRouter);
 
 export default app;
