@@ -1,5 +1,7 @@
 # Frontend
 
+In App.tsx, set your backend URL to axios.defaults.baseURL if you don't want to use my backend.
+
 ## Netlify deploy
 
 Set environment variable CI=false, so that build warnings won't be treated as errors

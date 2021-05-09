@@ -5,7 +5,7 @@ import { Refresh, Publish, Delete } from '@material-ui/icons'
 import axios from 'axios';
 import { Image } from './types';
 
-axios.defaults.baseURL = 'http://micl-shopify.herokuapp.com';
+axios.defaults.baseURL = 'https://micl-shopify.herokuapp.com';
 
 const useStyles = makeStyles((theme: Theme) => 
   createStyles({

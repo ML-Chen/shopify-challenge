@@ -1,6 +1,5 @@
 import { Response, Request } from 'express';
-import { rest } from 'lodash';
-import { Image, ImageDocument } from '../models/Image';
+import { Image } from '../models/Image';
 import { uploadFileOrFiles } from '../util/image';
 
 /**
