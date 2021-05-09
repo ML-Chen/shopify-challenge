@@ -11,6 +11,7 @@ import { uploadFileOrFiles } from '../util/image';
  * @param {UploadedFile? | Array<UploadedFile>?} images
  */
 export const addImages = (req: Request, res: Response) => {
+    console.log(req.body);
     const imageDetails: Array<{ password: string, public: boolean}> = JSON.parse(req.body.data);
     const imageUrls = uploadFileOrFiles(req.files.images);
     const newImages = [];
