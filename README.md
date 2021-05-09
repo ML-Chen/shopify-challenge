@@ -1,12 +1,13 @@
-# shopify-challenge
+# Shopify Challenge
 
-Planning
+Backend and data developer challenge for Shopify. This project allows a user to upload images, protected by a certain password, and delete them. Images can be private, in which case only users with the password can view them. Only users using the corresponding password can delete an image.
 
-- Upload images to…
-    - 
-- tbh I feel learning GCP at this time would be too difficult
-- maybe we could just use 
+See the README.md in the /backend repo for more details regarding the backend.
 
-Todos:
+Frontend URL: https://micl-shopify.netlify.app/  
+Backend URL: http://micl-shopify.herokuapp.com/ (nothing to see here)
 
-- Use authorization header instead of body param
+Possible future improvements:
+
+- Use authorization header for password instead of body param
+- Hash and salt passwords

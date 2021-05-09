@@ -45,3 +45,7 @@ export function uploadFile(file: UploadedFile): string {
     });
     return `https://${STORAGE_ACCOUNT_NAME_AZURE}.blob.core.windows.net/${CONTAINER_NAME_AZURE}/${blobName}`;
 }
+
+/*
+Based on https://github.com/GTBitsOfGood/umi-feeds-backend/blob/develop/src/util/image.ts by me, Judah Krug, and Andrew Wang, under the GPL v3.0.
+*/

@@ -3,7 +3,6 @@
 Backend server. This uses:
 
 - TypeScript
-- Auth0 for authentication
 - Azure Blob Storage for storing images
 - and it is deployed in Heroku
 
@@ -15,36 +14,32 @@ npm install
 
 Put necessary environment variables in the `.env` file. See the `.env.example` file for reference.
 
-As a best security practice, the passwords should be salted and hashed, but for simplicity, I did not.
-
 Then run,
 
 ```
 npm run dev
 ```
 
-to run in development mode, or …
+to run in development mode, or `npm start` to build and run in production mode.
 
 ## Code overview
 
-API
-
-- POST /images
-  - multipart/form-data
-  - user id and password
-  - public or private
-- DELETE /images
-  - array of image names to be deleted
-  - user id and password
-- DELETE /images/all
-  - user id and password
-
-Models
-
-- Image
-  - username: string
-  - password (hashed): string
-  - public: boolean
+- `src`
+  - `controllers`: defines Express endpoint functions
+    - POST /images – multipart/form-data request to upload images
+      - user id and password
+      - public or private
+    - DELETE /images
+      - array of image names to be deleted
+      - user id and password
+    - DELETE /images/all
+      - user id and password
+  - `models`: Mongoose models
+    - `Image.ts`
+      - username: string
+      - password: string
+      - public: boolean
+- `test`: integration tests
 
 ### Tests
 
@@ -58,15 +53,15 @@ We're using a MongoDB Atlas database. See https://studio3t.com/knowledge-base/ar
 
 ### Heroku
 
-Heroku is set to auto-deploy the `develop` branch of this repo to [URL pending]. Here's how to set Heroku to deploy from a subfolder: https://stackoverflow.com/questions/39197334/automated-heroku-deploy-from-subfolder
+Create a Heroku app.
 
-We're also using https://github.com/raxod502/heroku-buildpack-git-lfs for LFS support
+From the root folder, you can push to Heroku (after `heroku login`):
 
-If you wanted to create another deployment to Heroku for some reason, here's how you would do it:
+```
+git subtree push --prefix backend heroku master
+```
 
-Create a Heroku app, and in the Heroku dashboard Deploy tab, set it to deploy from this GitHub repo (or your fork, or whatever).
-
-Under the Heroku dashboard Settings tab, make sure to set additional config vars to match the `.env` file. Add the `heroku/nodejs` buildpack.
+Under the Heroku dashboard Settings tab, make sure to set additional config vars to match the `.env` file. (Make sure you don't have single quotes for the environment variable CONNECTION_STRING_AZURE in Heroku.) Add the `heroku/nodejs` buildpack.
 
 Make sure to disable production mode. To do this, create a config var called `NPM_CONFIG_PRODUCTION` which is set to `false`. Otherwise, Heroku will not install the dev dependencies properly, and the build will fail. You can set this config var by running the following command in this repo folder, after logging into Heroku CLI:
 
@@ -81,10 +76,16 @@ https://docs.microsoft.com/en-us/azure/storage/blobs/storage-quickstart-blobs-po
 - Create an Azure storage account.
 - Create a container with public access level set to Blob (anonymous read access for blobs only). I named mine "images".
 - To get the connection string, go to "Access keys" under the storage account information. Press "Show keys" and then copy the connection string to .env.
+- Set the following environment variables in .env:
+  - CONNECTION_STRING_AZURE (you'll need to surround it with single quotes since it has semicolons)
+  - STORAGE_ACCOUNT_NAME_AZURE
+  - CONTAINER_NAME_AZURE
 
 ## License
 
-This project is open source and is licensed under the GPL v3. It is based on the starter template [microsoft/TypeScript-Node-Starter](https://github.com/microsoft/TypeScript-Node-Starter/), which has the following license:
+This project is open source and is licensed under the GPL v3. It is based on the starter template [microsoft/TypeScript-Node-Starter](https://github.com/microsoft/TypeScript-Node-Starter/). The code (and README) here is based on what I've written at https://github.com/GTBitsOfGood/umi-feeds-backend. This Bits of Good repo is actually a team project, so where any code is not entirely mine and is not from the starter template, I've written a comment in the relevant file (just `imageController.ts`).
+
+TypeScript Node Starter has the following license:
 
     MIT License
 
@@ -108,4 +109,4 @@ This project is open source and is licensed under the GPL v3. It is based on the
     OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
     SOFTWARE
 
-The image "Undercover Investigation at Manitoba Pork Factory Farm" by Mercy For Animals Canada is licensed under CC BY 2.0
+The image "Undercover Investigation at Manitoba Pork Factory Farm" by Mercy For Animals Canada is licensed under CC BY 2.0. The other images in the /test folder are CC0.

@@ -1,3 +1,9 @@
+# Frontend
+
+## Netlify deploy
+
+Set environment variable CI=false, so that build warnings won't be treated as errors
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
