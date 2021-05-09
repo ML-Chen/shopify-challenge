@@ -46,6 +46,10 @@ Models
   - password (hashed): string
   - public: boolean
 
+### Tests
+
+To run tests, start the server, and then run `npm run test`.
+
 ## Development
 
 ### MongoDB Atlas
@@ -67,6 +71,14 @@ Make sure to disable production mode. To do this, create a config var called `NP
 ```sh
 heroku config:set NPM_CONFIG_PRODUCTION=false
 ```
+
+### Azure
+
+https://docs.microsoft.com/en-us/azure/storage/blobs/storage-quickstart-blobs-portal
+
+- Create an Azure storage account.
+- Create a container with public access level set to Blob (anonymous read access for blobs only). I named mine "images".
+- To get the connection string, go to "Access keys" under the storage account information. Press "Show keys" and then copy the connection string to .env.
 
 ## License
 
@@ -93,3 +105,5 @@ This project is open source and is licensed under the GPL v3. It is based on the
     LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
     OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
     SOFTWARE
+
+The image "Undercover Investigation at Manitoba Pork Factory Farm" by Mercy For Animals Canada is licensed under CC BY 2.0

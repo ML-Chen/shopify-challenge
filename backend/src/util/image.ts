@@ -1,8 +1,7 @@
 import { UploadedFile } from 'express-fileupload';
 import storage from 'azure-storage';
 import { uid } from 'uid';
-
-const containerName = 'image-container';
+import { CONNECTION_STRING_AZURE, CONTAINER_NAME_AZURE, STORAGE_ACCOUNT_NAME_AZURE } from '../util/secrets';
 
 /**
  * Upload one or multiple images into Azure. This is helpful because express-fileupload gives you an UploadedFile | UploadedFile[]
@@ -31,18 +30,18 @@ export function uploadFiles(files: UploadedFile[]): string[] {
  * @param file image file
  */
 export function uploadFile(file: UploadedFile): string {
-    const blobSVC = storage.createBlobService(process.env.CONNECTION_STRING_AZURE);
+    const blobSVC = storage.createBlobService(CONNECTION_STRING_AZURE);
     const imgRequest = file as UploadedFile;
     const uniqueID: string = uid(11);
     const index: number = imgRequest.name.lastIndexOf('.');
-    const blobName: string = imgRequest.name.substring(0, index);
-    blobName.concat('_', uniqueID, imgRequest.name.substring(index));
+    let blobName = imgRequest.name.substring(0, index);
+    blobName = blobName.concat('_', uniqueID, imgRequest.name.substring(index));
 
-    blobSVC.createBlockBlobFromText(containerName, blobName, imgRequest.data, (error: Error) => {
+    blobSVC.createBlockBlobFromText(CONTAINER_NAME_AZURE, blobName, imgRequest.data, (error: Error) => {
         if (error) {
             console.error(`Error in createBlockBlobFromText: ${error}`);
             throw new Error(error.message);
         }
     });
-    return `https://umifeedsimageupload.blob.core.windows.net/${containerName}/${imgRequest.name}`;
+    return `https://${STORAGE_ACCOUNT_NAME_AZURE}.blob.core.windows.net/${CONTAINER_NAME_AZURE}/${blobName}`;
 }

@@ -10,8 +10,7 @@ if (fs.existsSync('.env')) {
     dotenv.config({ path: '.env.example' }); // you can delete this after you create your own .env file!
 }
 export const ENVIRONMENT = process.env.NODE_ENV;
-export const { SESSION_SECRET } = process.env;
-export const { MONGODB_URI } = process.env;
+export const { SESSION_SECRET, MONGODB_URI, CONNECTION_STRING_AZURE, STORAGE_ACCOUNT_NAME_AZURE, CONTAINER_NAME_AZURE } = process.env;
 
 if (!SESSION_SECRET) {
     logger.error('No client secret. Set SESSION_SECRET environment variable.');
